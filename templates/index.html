@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encryption Tool</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Encryption & Decryption Tool</h2>
+        <form action="/process" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="input_type">Choose Input Type:</label>
+                <select name="input_type" id="input_type" required>
+                    <option value="text">Text</option>
+                    <option value="file">File</option>
+                </select>
+            </div>
+
+            <div id="text_input_div" class="form-group">
+                <label for="text_input">Enter Text:</label>
+                <textarea name="text_input" id="text_input" placeholder="Enter your text here..."></textarea>
+            </div>
+
+            <div id="file_input_div" class="form-group" style="display: none;">
+                <label for="file">Upload File:</label>
+                <input type="file" name="file" id="file">
+            </div>
+
+            <div class="form-group">
+                <label for="operation">Choose Operation:</label>
+                <select name="operation" id="operation">
+                    <option value="encrypt">Encrypt</option>
+                    <option value="decrypt">Decrypt</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="algorithm">Choose Algorithm:</label>
+                <select name="algorithm" id="algorithm">
+                    <option value="xor">Simple XOR</option>
+                    <option value="rc4">RC4</option>
+                    <option value="des_ecb">DES - ECB</option>
+                    <option value="des_cbc">DES - CBC</option>
+                    <option value="des_ctr">DES - Counter</option>
+                    <option value="aes_ecb">AES - ECB</option>
+                    <option value="aes_cbc">AES - CBC</option>
+                    <option value="aes_ctr">AES - Counter</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="key">Enter Key:</label>
+                <input type="text" name="key" id="key" placeholder="Enter encryption key" required>
+            </div>
+
+            <button type="submit" class="btn-submit">Submit</button>
+        </form>
+
+        {% if cipher_text %}
+        <div class="result">
+            <h3>Cipher Text (Base64):</h3>
+            <p>{{ cipher_text }}</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        // JavaScript to toggle between text input and file input
+        document.getElementById('input_type').addEventListener('change', function () {
+            const inputType = this.value;
+            if (inputType === 'text') {
+                document.getElementById('text_input_div').style.display = 'block';
+                document.getElementById('file_input_div').style.display = 'none';
+            } else {
+                document.getElementById('text_input_div').style.display = 'none';
+                document.getElementById('file_input_div').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
